@@ -1,0 +1,164 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package staffmanagement;
+
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.Date;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
+/**
+ *
+ * @author penpen
+ */
+@Entity
+@Table(catalog = "", schema = "PENILOP")
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "Shift.findAll", query = "SELECT s FROM Shift s"),
+    @NamedQuery(name = "Shift.findByShiftreference", query = "SELECT s FROM Shift s WHERE s.shiftreference = :shiftreference"),
+    @NamedQuery(name = "Shift.findByStarttime", query = "SELECT s FROM Shift s WHERE s.starttime = :starttime"),
+    @NamedQuery(name = "Shift.findByEndtime", query = "SELECT s FROM Shift s WHERE s.endtime = :endtime"),
+    @NamedQuery(name = "Shift.findByWard", query = "SELECT s FROM Shift s WHERE s.ward = :ward"),
+    @NamedQuery(name = "Shift.findByShiftdate", query = "SELECT s FROM Shift s WHERE s.shiftdate = :shiftdate"),
+    @NamedQuery(name = "Shift.findByShiftype", query = "SELECT s FROM Shift s WHERE s.shiftype = :shiftype")})
+public class Shift implements Serializable {
+    private static final long serialVersionUID = 1L;
+    @Id
+    @Basic(optional = false)
+    @Column(nullable = false, length = 10)
+    private String shiftreference;
+    @Basic(optional = false)
+    @Column(nullable = false)
+    @Temporal(TemporalType.TIME)
+    private Date starttime;
+    @Basic(optional = false)
+    @Column(nullable = false)
+    @Temporal(TemporalType.TIME)
+    private Date endtime;
+    @Basic(optional = false)
+    @Column(nullable = false, length = 32)
+    private String ward;
+    @Basic(optional = false)
+    @Column(nullable = false)
+    @Temporal(TemporalType.DATE)
+    private Date shiftdate;
+    @Basic(optional = false)
+    @Column(nullable = false, length = 32)
+    private String shiftype;
+    @OneToMany(mappedBy = "shiftreference")
+    private Collection<EmployeesShift> employeesShiftCollection;
+
+    public Shift() {
+    }
+
+    public Shift(String shiftreference) {
+        this.shiftreference = shiftreference;
+    }
+
+    public Shift(String shiftreference, Date starttime, Date endtime, String ward, Date shiftdate, String shiftype) {
+        this.shiftreference = shiftreference;
+        this.starttime = starttime;
+        this.endtime = endtime;
+        this.ward = ward;
+        this.shiftdate = shiftdate;
+        this.shiftype = shiftype;
+    }
+
+    public String getShiftreference() {
+        return shiftreference;
+    }
+
+    public void setShiftreference(String shiftreference) {
+        this.shiftreference = shiftreference;
+    }
+
+    public Date getStarttime() {
+        return starttime;
+    }
+
+    public void setStarttime(Date starttime) {
+        this.starttime = starttime;
+    }
+
+    public Date getEndtime() {
+        return endtime;
+    }
+
+    public void setEndtime(Date endtime) {
+        this.endtime = endtime;
+    }
+
+    public String getWard() {
+        return ward;
+    }
+
+    public void setWard(String ward) {
+        this.ward = ward;
+    }
+
+    public Date getShiftdate() {
+        return shiftdate;
+    }
+
+    public void setShiftdate(Date shiftdate) {
+        this.shiftdate = shiftdate;
+    }
+
+    public String getShiftype() {
+        return shiftype;
+    }
+
+    public void setShiftype(String shiftype) {
+        this.shiftype = shiftype;
+    }
+
+    @XmlTransient
+    public Collection<EmployeesShift> getEmployeesShiftCollection() {
+        return employeesShiftCollection;
+    }
+
+    public void setEmployeesShiftCollection(Collection<EmployeesShift> employeesShiftCollection) {
+        this.employeesShiftCollection = employeesShiftCollection;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (shiftreference != null ? shiftreference.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Shift)) {
+            return false;
+        }
+        Shift other = (Shift) object;
+        if ((this.shiftreference == null && other.shiftreference != null) || (this.shiftreference != null && !this.shiftreference.equals(other.shiftreference))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "staffmanagement.Shift[ shiftreference=" + shiftreference + " ]";
+    }
+    
+}
